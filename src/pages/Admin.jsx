@@ -141,7 +141,7 @@ export default function Admin() {
   const featuredCount = projects.filter((p) => p.featured).length
 
   return (
-    <div className="min-h-screen bg-navy-light">
+    <div className="min-h-screen bg-cream">
       {/* Admin header */}
       <div className="bg-navy text-white">
         <div className="container-content py-6 flex items-center justify-between">
@@ -205,9 +205,9 @@ export default function Admin() {
               {projects.map((project) => (
                 <div
                   key={project.id}
-                  className="flex items-center gap-4 p-4 hover:bg-navy-light/50 transition-colors"
+                  className="flex items-center gap-4 p-4 hover:bg-brand-light/50 transition-colors"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-navy-light overflow-hidden flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-light overflow-hidden flex items-center justify-center">
                     {project.coverImage ? (
                       <img
                         src={project.coverImage}
@@ -232,7 +232,7 @@ export default function Admin() {
                         className={`text-xs px-2 py-0.5 rounded-full ${
                           project.status === 'published'
                             ? 'bg-green-100 text-green-700'
-                            : 'bg-navy-light text-navy-secondary'
+                            : 'bg-brand-light text-navy-rich'
                         }`}
                       >
                         {project.status === 'published' ? 'Published' : 'Draft'}
@@ -243,7 +243,7 @@ export default function Admin() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => handleToggleFeatured(project)}
-                      className="p-2 rounded-lg hover:bg-navy-light text-body hover:text-amber-500 transition-colors"
+                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-amber-500 transition-colors"
                       title={project.featured ? 'Unfeature' : 'Feature'}
                     >
                       <Star
@@ -253,21 +253,21 @@ export default function Admin() {
                     </button>
                     <button
                       onClick={() => handleTogglePublish(project)}
-                      className="p-2 rounded-lg hover:bg-navy-light text-body hover:text-accent transition-colors"
+                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-brand transition-colors"
                       title={project.status === 'published' ? 'Unpublish' : 'Publish'}
                     >
                       {project.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                     <button
                       onClick={() => handleEdit(project)}
-                      className="p-2 rounded-lg hover:bg-navy-light text-body hover:text-accent transition-colors"
+                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-brand transition-colors"
                       title="Edit"
                     >
                       <Edit3 size={16} />
                     </button>
                     <button
                       onClick={() => setDeleteConfirm(project)}
-                      className="p-2 rounded-lg hover:bg-navy-light text-body hover:text-red-500 transition-colors"
+                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-red-500 transition-colors"
                       title="Delete"
                     >
                       <Trash2 size={16} />
@@ -311,7 +311,7 @@ export default function Admin() {
               </h2>
               <button
                 onClick={() => setShowForm(false)}
-                className="p-2 rounded-lg hover:bg-navy-light text-body transition-colors"
+                className="p-2 rounded-lg hover:bg-brand-light text-body transition-colors"
               >
                 <X size={20} />
               </button>
@@ -325,7 +325,7 @@ export default function Admin() {
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                     placeholder="Project title"
                     required
                   />
@@ -336,7 +336,7 @@ export default function Admin() {
                     type="text"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                     placeholder="url-friendly-slug"
                   />
                 </div>
@@ -348,7 +348,7 @@ export default function Admin() {
                   type="text"
                   value={formData.excerpt}
                   onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="One-line summary for listings"
                 />
               </div>
@@ -359,7 +359,7 @@ export default function Admin() {
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="Full case-study content"
                 />
               </div>
@@ -370,7 +370,7 @@ export default function Admin() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>{c}</option>
@@ -383,7 +383,7 @@ export default function Admin() {
                     type="number"
                     value={formData.order}
                     onChange={(e) => setFormData({ ...formData, order: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
               </div>
@@ -396,7 +396,7 @@ export default function Admin() {
                   type="text"
                   value={formData.tags}
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="React, Node.js, Python"
                 />
               </div>
@@ -407,7 +407,7 @@ export default function Admin() {
                   type="text"
                   value={formData.coverImage}
                   onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="https://..."
                 />
               </div>
@@ -418,7 +418,7 @@ export default function Admin() {
                   type="text"
                   value={formData.videoUrl}
                   onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="https://..."
                 />
               </div>
@@ -429,7 +429,7 @@ export default function Admin() {
                   type="text"
                   value={formData.projectUrl}
                   onChange={(e) => setFormData({ ...formData, projectUrl: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   placeholder="https://..."
                 />
               </div>
@@ -440,7 +440,7 @@ export default function Admin() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
                   >
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
@@ -452,7 +452,7 @@ export default function Admin() {
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-4 h-4 rounded border-border text-accent focus:ring-accent/20"
+                    className="w-4 h-4 rounded border-border text-brand focus:ring-brand/20"
                   />
                   <span className="text-sm font-medium text-navy">Featured</span>
                 </label>

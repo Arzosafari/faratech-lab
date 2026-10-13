@@ -3,6 +3,7 @@ export default function SectionHeading({
   title,
   description,
   align = 'left',
+  light = false,
   className = '',
 }) {
   const alignment = align === 'center' ? 'text-center mx-auto' : 'text-left'
@@ -10,15 +11,15 @@ export default function SectionHeading({
   return (
     <div className={`${alignment} max-w-2xl ${align === 'center' ? 'mx-auto' : ''} ${className}`}>
       {eyebrow && (
-        <p className="text-sm font-semibold uppercase tracking-wider text-accent mb-3">
+        <p className={`eyebrow mb-4 ${light ? '!text-brand-light' : ''}`}>
           {eyebrow}
         </p>
       )}
-      <h2 className="text-3xl md:text-4xl font-bold text-navy tracking-tight leading-tight">
+      <h2 className={`heading-2 ${light ? '!text-white' : ''}`}>
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-lg text-body leading-relaxed">
+        <p className={`mt-5 text-lg leading-relaxed ${light ? 'text-white/70' : 'text-body'}`}>
           {description}
         </p>
       )}
