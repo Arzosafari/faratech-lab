@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Linkedin } from 'lucide-react'
 import SectionHeading from '../components/SectionHeading.jsx'
 import Button from '../components/Button.jsx'
@@ -12,8 +11,10 @@ function PortraitPlaceholder({ name }) {
     .join('')
 
   return (
-    <div className="aspect-[4/5] w-full rounded-xl bg-navy-light border border-border flex items-center justify-center">
-      <span className="text-4xl font-semibold text-navy/30">{initials}</span>
+    <div className="aspect-[4/5] w-full rounded-2xl bg-navy text-white flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-brand/20 rounded-full blur-[60px]" />
+      <span className="relative text-5xl font-bold text-white/30">{initials}</span>
     </div>
   )
 }
@@ -26,7 +27,7 @@ export default function MeetFounders() {
   }, [])
 
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding surface-white">
       <div className="container-content">
         <SectionHeading
           eyebrow="Meet the Founders"
@@ -34,30 +35,33 @@ export default function MeetFounders() {
           description="FaraTech is built by two technology professionals who share an interest in software engineering, artificial intelligence, and creating useful digital experiences."
         />
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {members.map((member) => (
-            <div key={member.id} className="flex flex-col">
+            <div
+              key={member.id}
+              className="rounded-2xl bg-cream border border-border overflow-hidden card-hover"
+            >
               {member.portrait ? (
                 <img
                   src={member.portrait}
                   alt={member.name}
-                  className="aspect-[4/5] w-full rounded-xl object-cover"
+                  className="aspect-[4/5] w-full object-cover"
                   loading="lazy"
                 />
               ) : (
                 <PortraitPlaceholder name={member.name} />
               )}
 
-              <div className="mt-6">
+              <div className="p-6">
                 <h3 className="text-xl font-semibold text-navy">{member.name}</h3>
-                <p className="text-sm text-accent font-medium mt-1">{member.role}</p>
-                <p className="mt-3 text-body leading-relaxed">{member.bio}</p>
+                <p className="text-sm text-brand font-medium mt-1">{member.role}</p>
+                <p className="mt-3 text-body leading-relaxed text-sm">{member.bio}</p>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap gap-2">
                   {member.focusAreas.map((area) => (
                     <span
                       key={area}
-                      className="px-3 py-1 rounded-full bg-navy-light text-xs font-medium text-navy-secondary"
+                      className="px-3 py-1 rounded-full bg-brand-light text-xs font-medium text-navy-rich"
                     >
                       {area}
                     </span>
@@ -69,7 +73,7 @@ export default function MeetFounders() {
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 text-sm text-body hover:text-accent transition-colors"
+                    className="mt-5 inline-flex items-center gap-2 text-sm text-body hover:text-brand transition-colors"
                   >
                     <Linkedin size={16} />
                     LinkedIn

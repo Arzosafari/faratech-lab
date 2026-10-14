@@ -20,16 +20,22 @@ export default function Header() {
     setMenuOpen(false)
   }, [location.pathname])
 
+  // Header is transparent over the dark hero, becomes solid on scroll
+  const isHome = location.pathname === '/'
+  const isDark = isHome && !scrolled
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-sm border-b border-border shadow-sm'
-          : 'bg-white border-b border-transparent'
+          ? 'bg-cream/95 backdrop-blur-md border-b border-border shadow-sm'
+          : isDark
+            ? 'bg-transparent'
+            : 'bg-cream border-b border-transparent'
       }`}
     >
       <div className="container-content flex items-center justify-between h-16 md:h-20">
-        <Logo />
+        <Logo light={isDark} />
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
@@ -39,8 +45,10 @@ export default function Header() {
               to={item.path}
               className={`text-sm font-medium transition-colors duration-200 ${
                 location.pathname === item.path
-                  ? 'text-accent'
-                  : 'text-navy hover:text-accent'
+                  ? isDark ? 'text-white' : 'text-brand'
+                  : isDark
+                    ? 'text-white/70 hover:text-white'
+                    : 'text-navy hover:text-brand'
               }`}
             >
               {item.label}
@@ -49,14 +57,18 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <Button to={siteConfig.cta.primary.path} size="sm">
+          <Button
+            to={siteConfig.cta.primary.path}
+            size="sm"
+            variant={isDark ? 'accent' : 'primary'}
+          >
             {siteConfig.cta.primary.label}
           </Button>
         </div>
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2 text-navy hover:text-accent transition-colors"
+          className={`md:hidden p-2 transition-colors ${isDark ? 'text-white' : 'text-navy'}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
@@ -67,16 +79,16 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-border">
+        <div className="md:hidden bg-cream border-t border-border">
           <nav className="container-content py-6 flex flex-col gap-1" aria-label="Mobile navigation">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+                className={`px-3 py-3 rounded-xl text-base font-medium transition-colors ${
                   location.pathname === item.path
-                    ? 'text-accent bg-navy-light'
-                    : 'text-navy hover:bg-navy-light'
+                    ? 'text-brand bg-brand-light'
+                    : 'text-navy hover:bg-brand-light'
                 }`}
               >
                 {item.label}
