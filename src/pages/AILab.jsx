@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { FlaskConical, ArrowRight, Sparkles } from 'lucide-react'
 import Button from '../components/Button.jsx'
+import Reveal from '../components/Reveal.jsx'
 import { getAiLabDemos } from '../data/aiLab.js'
 
 const statusStyles = {
   available: 'bg-green-100 text-green-700',
   'in-development': 'bg-amber-100 text-amber-700',
-  'coming-soon': 'bg-brand-light text-navy-rich',
+  'coming-soon': 'bg-electric/10 text-electric',
 }
 
 const statusLabels = {
@@ -37,75 +38,81 @@ export default function AILab() {
 
   return (
     <div>
-      {/* Page header — navy with experimental feel */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-brand/5 rounded-full blur-[80px]" />
-        <div className="container-content relative py-20 md:py-28">
+      {/* Experimental header — dark with technical feel */}
+      <section className="bg-midnight-radial text-white relative overflow-hidden min-h-[50vh] flex items-end">
+        <div className="absolute inset-0 grid-dark opacity-30" />
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-electric/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-electric/3 rounded-full blur-[80px]" />
+        <div className="container-content relative pt-28 pb-16 md:pb-20">
           <div className="flex items-center gap-3 mb-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
-              <FlaskConical size={20} className="text-brand-light" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-white/5">
+              <FlaskConical size={18} className="text-electric" />
             </div>
-            <span className="eyebrow !text-brand-light">AI Lab</span>
+            <span className="label-light">AI Lab</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight max-w-2xl">
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tightest leading-[1.05] max-w-2xl">
             Exploring What's Possible with AI.
           </h1>
-          <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-2xl">
-            At FaraTech, we explore how artificial intelligence can become useful, accessible,
-            and practical through real applications and intelligent workflows.
+          <p className="mt-5 text-lg text-white/55 leading-relaxed max-w-2xl">
+            At FaraTech, we explore how artificial intelligence can become
+            useful, accessible, and practical through real applications and
+            intelligent workflows.
           </p>
         </div>
       </section>
 
       {/* Demos */}
-      <section className="section-padding surface-cream">
+      <section className="section-padding surface-ivory">
         <div className="container-content">
           {loading ? (
-            <div className="text-center text-body py-16">Loading…</div>
+            <div className="text-center text-steel py-16">Loading…</div>
           ) : demos.length === 0 ? (
-            /* Empty / coming-soon state — designed */
-            <div className="max-w-2xl mx-auto text-center py-8">
-              <div className="rounded-2xl bg-white border border-border p-12 relative overflow-hidden">
-                <div className="absolute inset-0 grid-pattern-dark opacity-40" />
-                <div className="relative">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-light mx-auto mb-6">
-                    <Sparkles size={28} className="text-brand/50" />
-                  </div>
-                  <h2 className="heading-3 mb-3">The Lab Is Taking Shape</h2>
-                  <p className="text-body leading-relaxed">
-                    We're setting up a space for AI experiments and demonstrations. When demos are
-                    ready, they'll appear here — each one a genuine, working tool, not a simulation.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-8 text-left">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-navy mb-4">
-                  What We're Exploring
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {demoTypes.map((type) => (
-                    <div
-                      key={type}
-                      className="flex items-center gap-3 p-4 rounded-xl bg-white border border-border"
-                    >
-                      <span className="flex h-2 w-2 rounded-full bg-brand flex-shrink-0" />
-                      <span className="text-sm text-navy-rich font-medium">{type}</span>
+            /* Coming-soon state — designed, not blank */
+            <Reveal>
+              <div className="max-w-2xl mx-auto">
+                <div className="border border-border-l rounded-lg p-12 md:p-16 bg-white relative overflow-hidden">
+                  <div className="absolute inset-0 grid-light opacity-30" />
+                  <div className="relative">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-md bg-electric/10 mx-auto mb-6">
+                      <Sparkles size={24} className="text-electric/60" />
                     </div>
-                  ))}
+                    <h2 className="font-display text-2xl font-bold text-midnight tracking-tight text-center">
+                      The Lab Is Taking Shape
+                    </h2>
+                    <p className="mt-3 body-lg text-center">
+                      We're setting up a space for AI experiments and
+                      demonstrations. When demos are ready, they'll appear here —
+                      each one a genuine, working tool, not a simulation.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-10">
+                  <p className="label mb-4">What We're Exploring</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {demoTypes.map((type) => (
+                      <div
+                        key={type}
+                        className="flex items-center gap-3 p-4 rounded-md bg-white border border-border-l"
+                      >
+                        <span className="flex h-1.5 w-1.5 rounded-full bg-electric flex-shrink-0" />
+                        <span className="text-sm text-steel-dark font-medium">
+                          {type}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {demos.map((demo) => (
                 <div
                   key={demo.id}
-                  className="rounded-2xl border border-border bg-white p-6 card-hover"
+                  className="rounded-lg border border-border-l bg-white p-6 transition-all duration-300 hover:border-electric/30 hover:shadow-lg"
                 >
-                  <div className="aspect-video rounded-xl bg-brand-light mb-5 overflow-hidden">
+                  <div className="aspect-video rounded-md bg-electric/5 mb-5 overflow-hidden">
                     {demo.previewMedia ? (
                       <img
                         src={demo.previewMedia}
@@ -115,22 +122,24 @@ export default function AILab() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Sparkles size={24} className="text-brand/20" />
+                        <Sparkles size={20} className="text-electric/20" />
                       </div>
                     )}
                   </div>
 
                   <div className="flex items-center justify-between mb-3">
-                    <span className="eyebrow">{demo.category}</span>
+                    <span className="label">{demo.category}</span>
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyles[demo.status]}`}
+                      className={`px-2 py-0.5 rounded text-xs font-medium ${statusStyles[demo.status]}`}
                     >
                       {statusLabels[demo.status]}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-navy">{demo.name}</h3>
-                  <p className="mt-2 text-sm text-body leading-relaxed">{demo.description}</p>
+                  <h3 className="font-display text-lg font-semibold text-midnight">
+                    {demo.name}
+                  </h3>
+                  <p className="mt-2 body-sm">{demo.description}</p>
 
                   {demo.status === 'available' && (
                     <Button to={demo.detailPage || '#'} size="sm" className="mt-4">
@@ -146,17 +155,21 @@ export default function AILab() {
       </section>
 
       {/* CTA */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="container-content relative py-16 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white">Interested in an AI solution?</h2>
-          <p className="mt-3 text-white/70">
-            Let's discuss how AI can solve a real problem for your business.
-          </p>
-          <Button to="/contact" variant="accent" className="mt-8">
-            Start a Conversation
-            <ArrowRight size={18} />
-          </Button>
+      <section className="bg-midnight-radial text-white relative overflow-hidden">
+        <div className="absolute inset-0 grid-dark opacity-20" />
+        <div className="container-content relative py-20">
+          <div className="max-w-xl">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white">
+              Interested in an AI solution?
+            </h2>
+            <p className="mt-3 text-white/55">
+              Let's discuss how AI can solve a real problem for your business.
+            </p>
+            <Button to="/contact" variant="electric" className="mt-8">
+              Start a Conversation
+              <ArrowRight size={18} />
+            </Button>
+          </div>
         </div>
       </section>
     </div>

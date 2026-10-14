@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FolderOpen, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import Reveal from '../components/Reveal.jsx'
 import Button from '../components/Button.jsx'
 import { getPublishedProjects } from '../data/projects.js'
 
@@ -17,101 +18,123 @@ export default function Work() {
 
   return (
     <div>
-      {/* Page header — navy */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[100px]" />
-        <div className="container-content relative py-20 md:py-28">
-          <p className="eyebrow !text-brand-light mb-4">Our Work</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+      {/* Editorial header — dark */}
+      <section className="bg-midnight-radial text-white relative overflow-hidden min-h-[50vh] flex items-end">
+        <div className="absolute inset-0 grid-dark opacity-30" />
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-electric/5 rounded-full blur-[120px]" />
+        <div className="container-content relative pt-28 pb-16 md:pb-20">
+          <p className="label-light mb-5">Our Work</p>
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tightest leading-[1.05]">
             Ideas in Action
           </h1>
-          <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-2xl">
-            Every project begins with a challenge. We bring design, software, and intelligent
-            technology together to create a solution.
+          <p className="mt-5 text-lg text-white/55 leading-relaxed max-w-2xl">
+            Every project begins with a challenge. We bring design, software,
+            and intelligent technology together to create a solution.
           </p>
         </div>
       </section>
 
       {/* Project gallery */}
-      <section className="section-padding surface-cream">
+      <section className="section-padding surface-ivory">
         <div className="container-content">
           {loading ? (
-            <div className="text-center text-body py-16">Loading…</div>
+            <div className="text-center text-steel py-16">Loading…</div>
           ) : projects.length === 0 ? (
-            <div className="rounded-2xl bg-white border border-border p-12 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute inset-0 grid-pattern-dark opacity-40" />
-              <div className="relative max-w-md mx-auto">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-light shadow-sm mx-auto mb-6">
-                  <FolderOpen size={28} className="text-brand/50" />
-                </div>
-                <h2 className="heading-3 mb-3">
-                  Good work takes thoughtful building.
-                </h2>
-                <p className="text-body leading-relaxed">
-                  We're preparing our project showcases. Check back to explore the digital
-                  solutions and intelligent systems created by FaraTech.
-                </p>
-                <Button to="/contact" variant="primary" className="mt-8">
-                  Start a Project
-                  <ArrowRight size={18} />
-                </Button>
-              </div>
-            </div>
+            <EmptyState />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {projects.map((project) => (
-                <Link
-                  key={project.id}
-                  to={`/work/${project.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-white border border-border card-hover"
-                >
-                  <div className="aspect-[16/10] overflow-hidden bg-brand-light">
-                    {project.coverImage ? (
-                      <img
-                        src={project.coverImage}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <FolderOpen size={32} className="text-brand/20" />
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              {projects.map((project, index) => {
+                const isWide = index === 0 || index === 3
+                const colSpan = isWide ? 'md:col-span-7' : 'md:col-span-5'
+
+                return (
+                  <Reveal key={project.id} delay={index * 0.05} className={colSpan}>
+                    <Link
+                      to={`/work/${project.slug}`}
+                      className="group block rounded-lg overflow-hidden bg-white border border-border-l transition-all duration-300 hover:border-electric/30 hover:shadow-lg"
+                    >
+                      <div
+                        className={`overflow-hidden bg-electric/5 ${
+                          isWide ? 'aspect-[16/9]' : 'aspect-[16/10]'
+                        }`}
+                      >
+                        {project.coverImage ? (
+                          <img
+                            src={project.coverImage}
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="label">No preview</span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="eyebrow">{project.category}</p>
-                      {project.featured && (
-                        <span className="text-xs font-medium text-navy-rich bg-brand-light px-2.5 py-0.5 rounded-full">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-lg font-semibold text-navy group-hover:text-brand transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-body leading-relaxed">{project.excerpt}</p>
-                    {project.tags.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 rounded-full bg-cream text-xs font-medium text-slate-muted"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                      <div className="p-5 md:p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="label">{project.category}</span>
+                          {project.featured && (
+                            <span className="text-[10px] font-semibold uppercase tracking-label text-electric">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-display text-lg font-semibold text-midnight group-hover:text-electric transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="mt-1.5 body-sm">{project.excerpt}</p>
+                        {project.tags.length > 0 && (
+                          <div className="mt-3 flex flex-wrap gap-1.5">
+                            {project.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="px-2 py-0.5 rounded text-xs font-medium text-steel-dark bg-electric/8"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                    </Link>
+                  </Reveal>
+                )
+              })}
             </div>
           )}
         </div>
       </section>
     </div>
+  )
+}
+
+function EmptyState() {
+  return (
+    <Reveal>
+      <div className="border border-border-l rounded-lg p-12 md:p-20 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 grid-light opacity-30" />
+        <div className="relative max-w-lg">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="h-px w-12 bg-electric" />
+            <span className="label">Coming Soon</span>
+          </div>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-midnight tracking-tight leading-tight">
+            We're building what comes next.
+          </h2>
+          <p className="mt-4 body-lg">
+            Our portfolio will grow as new digital experiences and intelligent
+            solutions take shape. Each project will be documented as a complete
+            case study — from the initial challenge through to the final result.
+          </p>
+          <div className="mt-8 pt-6 border-t border-border-l">
+            <Button to="/contact" variant="outline" size="md">
+              Start a Project
+              <ArrowRight size={16} />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Reveal>
   )
 }

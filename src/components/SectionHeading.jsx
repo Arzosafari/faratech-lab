@@ -11,15 +11,15 @@ export default function SectionHeading({
   return (
     <div className={`${alignment} max-w-2xl ${align === 'center' ? 'mx-auto' : ''} ${className}`}>
       {eyebrow && (
-        <p className={`eyebrow mb-4 ${light ? '!text-brand-light' : ''}`}>
-          {eyebrow}
-        </p>
+        <p className={`label mb-4 ${light ? '!text-steel-light' : ''}`}>{eyebrow}</p>
       )}
-      <h2 className={`heading-2 ${light ? '!text-white' : ''}`}>
-        {title}
-      </h2>
+      <h2 className={`heading-2 ${light ? '!text-white' : ''}`}>{title}</h2>
       {description && (
-        <p className={`mt-5 text-lg leading-relaxed ${light ? 'text-white/70' : 'text-body'}`}>
+        <p
+          className={`mt-5 text-lg leading-relaxed ${
+            light ? 'text-white/60' : 'body-lg'
+          }`}
+        >
           {description}
         </p>
       )}

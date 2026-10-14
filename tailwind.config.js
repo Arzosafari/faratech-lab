@@ -4,39 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          DEFAULT: '#101F3D',
-          rich: '#172D52',
-          deep: '#0B1628',
+        midnight: {
+          DEFAULT: '#0B1630',
+          deep: '#080F1F',
         },
-        brand: {
-          DEFAULT: '#4169A8',
-          hover: '#35588F',
-          light: '#E8EFF9',
+        'deep-blue': '#15294B',
+        ivory: '#F2F0E9',
+        steel: {
+          DEFAULT: '#8295B4',
+          light: '#A8B8D0',
+          dark: '#5E7090',
         },
-        cream: '#F7F6F2',
-        slate: {
-          muted: '#66748A',
+        electric: {
+          DEFAULT: '#6E91FF',
+          hover: '#5A7AEF',
         },
-        body: '#4A5568',
-        border: '#E2E8F0',
-        accent: {
-          DEFAULT: '#4169A8',
-          hover: '#35588F',
-        },
+        'border-l': '#D9DEE8',
+        'border-d': '#293957',
       },
       fontFamily: {
-        sans: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
-        content: '1200px',
+        content: '1280px',
+        prose: '720px',
+      },
+      letterSpacing: {
+        tightest: '-0.04em',
+        label: '0.18em',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',
         'fade-up': 'fadeUp 0.6s ease-out',
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulseSlow 4s ease-in-out infinite',
+        'draw-line': 'drawLine 1.2s ease-out forwards',
       },
       keyframes: {
         fadeIn: {
@@ -47,18 +48,16 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-12px)' },
-        },
-        pulseSlow: {
-          '0%, 100%': { opacity: '0.4' },
-          '50%': { opacity: '0.7' },
+        drawLine: {
+          '0%': { strokeDashoffset: '100%' },
+          '100%': { strokeDashoffset: '0%' },
         },
       },
       backgroundImage: {
-        'navy-gradient': 'linear-gradient(135deg, #101F3D 0%, #172D52 100%)',
-        'navy-radial': 'radial-gradient(ellipse at top right, #172D52 0%, #101F3D 50%, #0B1628 100%)',
+        'midnight-radial':
+          'radial-gradient(ellipse 80% 60% at 70% 20%, #15294B 0%, #0B1630 55%, #080F1F 100%)',
+        'ivory-radial':
+          'radial-gradient(ellipse 60% 50% at 30% 10%, #FFFFFF 0%, #F2F0E9 100%)',
       },
     },
   },

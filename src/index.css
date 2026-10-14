@@ -8,11 +8,11 @@
   }
 
   body {
-    @apply bg-cream text-navy font-sans antialiased;
+    @apply bg-ivory text-midnight font-sans antialiased;
   }
 
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand;
+    @apply outline-2 outline-offset-2 outline-electric;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -29,68 +29,106 @@
 
 @layer components {
   .container-content {
-    @apply mx-auto w-full max-w-content px-6 md:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-content px-6 md:px-8 lg:px-12;
   }
 
   .section-padding {
     @apply py-20 md:py-28;
   }
 
-  .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.15em] text-brand;
+  .section-padding-lg {
+    @apply py-24 md:py-36;
   }
 
-  .heading-1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-navy tracking-tight leading-[1.08];
+  /* ── Typography ── */
+
+  .label {
+    @apply text-[11px] font-semibold uppercase tracking-label text-steel;
+  }
+
+  .label-light {
+    @apply text-[11px] font-semibold uppercase tracking-label text-steel-light;
+  }
+
+  .display-xl {
+    @apply font-display text-4xl md:text-5xl lg:text-6xl font-bold text-midnight tracking-tightest leading-[1.05];
+  }
+
+  .display-lg {
+    @apply font-display text-3xl md:text-4xl lg:text-5xl font-bold text-midnight tracking-tight leading-[1.08];
+  }
+
+  .display-md {
+    @apply font-display text-2xl md:text-3xl font-bold text-midnight tracking-tight leading-tight;
   }
 
   .heading-2 {
-    @apply text-3xl md:text-4xl font-bold text-navy tracking-tight leading-tight;
+    @apply font-display text-2xl md:text-3xl font-bold text-midnight tracking-tight leading-tight;
   }
 
   .heading-3 {
-    @apply text-xl md:text-2xl font-semibold text-navy tracking-tight;
+    @apply font-display text-xl md:text-2xl font-semibold text-midnight tracking-tight;
   }
 
   .body-lg {
-    @apply text-lg text-body leading-relaxed;
+    @apply text-lg text-steel-dark leading-relaxed;
   }
 
   .body-text {
-    @apply text-base text-body leading-relaxed;
+    @apply text-base text-steel-dark leading-relaxed;
   }
 
-  .surface-navy {
-    @apply bg-navy text-white;
+  .body-sm {
+    @apply text-sm text-steel-dark leading-relaxed;
   }
 
-  .surface-cream {
-    @apply bg-cream text-navy;
+  /* ── Surfaces ── */
+
+  .surface-dark {
+    @apply bg-midnight text-white;
   }
 
-  .surface-soft-blue {
-    @apply bg-brand-light text-navy;
+  .surface-deep {
+    @apply bg-deep-blue text-white;
+  }
+
+  .surface-ivory {
+    @apply bg-ivory text-midnight;
   }
 
   .surface-white {
-    @apply bg-white text-navy;
+    @apply bg-white text-midnight;
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5;
+  /* ── Dividers ── */
+
+  .divider-dark {
+    @apply border-border-d;
   }
 
-  .grid-pattern {
+  .divider-light {
+    @apply border-border-l;
+  }
+
+  /* ── Grid patterns ── */
+
+  .grid-dark {
     background-image:
-      linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
   }
 
-  .grid-pattern-dark {
+  .grid-light {
     background-image:
-      linear-gradient(to right, rgba(16,31,61,0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(16,31,61,0.05) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(to right, rgba(11, 22, 48, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11, 22, 48, 0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* ── Misc ── */
+
+  .link-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full;
   }
 }

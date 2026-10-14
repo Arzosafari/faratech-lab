@@ -1,21 +1,23 @@
 import Hero from '../sections/Hero.jsx'
-import WhatWeDo from '../sections/WhatWeDo.jsx'
+import Introduction from '../sections/Introduction.jsx'
+import Capabilities from '../sections/Capabilities.jsx'
 import SelectedWork from '../sections/SelectedWork.jsx'
-import HowWeWork from '../sections/HowWeWork.jsx'
-import WhyFaraTech from '../sections/WhyFaraTech.jsx'
-import MeetFounders from '../sections/MeetFounders.jsx'
-import FinalCTA from '../sections/FinalCTA.jsx'
+import Philosophy from '../sections/Philosophy.jsx'
+import Process from '../sections/Process.jsx'
+import Founders from '../sections/Founders.jsx'
+import ContactCTA from '../sections/ContactCTA.jsx'
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <WhatWeDo />
+      <Introduction />
+      <Capabilities />
       <SelectedWork />
-      <HowWeWork />
-      <WhyFaraTech />
-      <MeetFounders />
-      <FinalCTA />
+      <Philosophy />
+      <Process />
+      <Founders />
+      <ContactCTA />
     </>
   )
 }
