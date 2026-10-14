@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, FolderOpen } from 'lucide-react'
-import SectionHeading from '../components/SectionHeading.jsx'
+import { ArrowUpRight } from 'lucide-react'
+import Reveal from '../components/Reveal.jsx'
 import Button from '../components/Button.jsx'
 import { getPublishedProjects } from '../data/projects.js'
 
@@ -17,69 +17,62 @@ export default function SelectedWork() {
   }, [])
 
   return (
-    <section className="section-padding surface-white">
+    <section className="section bg-ink-soft">
       <div className="container-content">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <SectionHeading
-            eyebrow="Selected Work"
-            title="Ideas in Action"
-            description="Explore the digital experiences, software, and intelligent systems we build."
-          />
-          <Button to="/work" variant="ghost" size="md" className="flex-shrink-0">
-            View All Projects
-            <ArrowRight size={18} />
+        <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div>
+            <p className="label mb-6">02 — Selected Work</p>
+            <h2 className="display-sm">Ideas in action</h2>
+          </div>
+          <Button to="/work" variant="ghost" size="sm" className="self-start md:self-auto">
+            View all projects
+            <ArrowUpRight size={16} />
           </Button>
-        </div>
+        </Reveal>
 
         {loading ? (
-          <div className="text-center text-body py-16">Loading…</div>
+          <p className="body-text mt-16">Loading…</p>
         ) : projects.length === 0 ? (
-          /* Empty state — designed, not blank */
-          <div className="rounded-2xl bg-brand-light border border-border p-12 md:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 grid-pattern-dark opacity-50" />
-            <div className="relative max-w-md mx-auto">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm mx-auto mb-6">
-                <FolderOpen size={28} className="text-brand/50" />
-              </div>
-              <h3 className="heading-3 mb-3">
-                Our portfolio is growing.
-              </h3>
-              <p className="text-body leading-relaxed">
-                We're building digital experiences and intelligent solutions. New projects and
-                case studies will appear here soon.
-              </p>
-            </div>
-          </div>
+          /* Designed empty state — quiet, not blank */
+          <Reveal className="mt-16 border-t border-line pt-14">
+            <p className="max-w-lg text-2xl font-semibold leading-snug tracking-tight text-mist md:text-3xl">
+              Our portfolio is growing. New case studies will appear here soon.
+            </p>
+            <Button to="/contact" variant="outline" size="md" className="mt-8">
+              Start a Project
+              <ArrowUpRight size={16} />
+            </Button>
+          </Reveal>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projects.map((project) => (
-              <Link
-                key={project.id}
-                to={`/work/${project.slug}`}
-                className="group rounded-2xl overflow-hidden bg-white border border-border card-hover"
-              >
-                <div className="aspect-[16/10] overflow-hidden bg-brand-light">
-                  {project.coverImage ? (
-                    <img
-                      src={project.coverImage}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <FolderOpen size={32} className="text-brand/20" />
+          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+            {projects.map((project, i) => (
+              <Reveal key={project.id} delay={i * 0.06}>
+                <Link to={`/work/${project.slug}`} className="group block">
+                  <div className="aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-ink-card">
+                    {project.coverImage && (
+                      <img
+                        src={project.coverImage}
+                        alt={project.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        loading="lazy"
+                      />
+                    )}
+                  </div>
+                  <div className="mt-5 flex items-start justify-between gap-6">
+                    <div>
+                      <p className="label mb-2">{project.category}</p>
+                      <h3 className="text-xl font-semibold text-mist transition-colors group-hover:text-ember">
+                        {project.title}
+                      </h3>
+                      <p className="body-text mt-2 max-w-md">{project.excerpt}</p>
                     </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <p className="eyebrow mb-2">{project.category}</p>
-                  <h3 className="text-lg font-semibold text-navy group-hover:text-brand transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-body leading-relaxed">{project.excerpt}</p>
-                </div>
-              </Link>
+                    <ArrowUpRight
+                      size={20}
+                      className="mt-1 flex-shrink-0 text-mist-mute transition-colors group-hover:text-mist"
+                    />
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
         )}

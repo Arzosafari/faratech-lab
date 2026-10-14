@@ -9,7 +9,7 @@ export const siteConfig = {
   tagline: 'Your Ideas. Our Technology. Infinite Possibilities.',
   supportingStatement: 'Ideas into Digital Solutions.',
   description:
-    'FaraTech is a technology studio that transforms ideas into practical digital products and intelligent solutions.',
+    'A technology studio turning ideas into websites, software, AI, and automation.',
 
   contact: {
     email: 'faratechteam@gmail.com',

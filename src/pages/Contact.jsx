@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { Mail, Instagram, Linkedin, Send, AlertCircle, CheckCircle2 } from 'lucide-react'
+import PageHero from '../components/PageHero.jsx'
 import Button from '../components/Button.jsx'
 import { siteConfig } from '../config/site.js'
-import { submitContactRequest, validateContactForm, CONTACT_DELIVERY_ENABLED } from '../data/contact.js'
+import {
+  submitContactRequest,
+  validateContactForm,
+  CONTACT_DELIVERY_ENABLED,
+} from '../data/contact.js'
 
 const projectTypes = [
   'Web Development & Design',
@@ -18,6 +23,12 @@ const budgetRanges = [
   '$15,000 — $50,000',
   '$50,000+',
   "Let's discuss",
+]
+
+const channels = [
+  { icon: Mail, label: 'Email', value: siteConfig.contact.email, href: `mailto:${siteConfig.contact.email}` },
+  { icon: Instagram, label: 'Instagram', value: '@faratechlab_', href: siteConfig.contact.instagram },
+  { icon: Linkedin, label: 'LinkedIn', value: 'FaraTech', href: siteConfig.contact.linkedin },
 ]
 
 export default function Contact() {
@@ -68,260 +79,217 @@ export default function Contact() {
   }
 
   const inputClass = (fieldName) =>
-    `w-full rounded-xl border px-4 py-2.5 text-navy placeholder-slate-muted/50 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand/20 ${
-      errors[fieldName] ? 'border-red-400' : 'border-border'
+    `w-full rounded-xl border bg-ink-soft px-4 py-3 text-mist placeholder:text-mist-mute transition-colors focus:outline-none focus:border-line-strong ${
+      errors[fieldName] ? 'border-red-500/60' : 'border-line'
     }`
 
   return (
     <div>
-      {/* Page header — navy */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[100px]" />
-        <div className="container-content relative py-20 md:py-28">
-          <p className="eyebrow !text-brand-light mb-4">Contact</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight max-w-2xl">
-            Let's Build Something Meaningful.
-          </h1>
-          <p className="mt-5 text-lg text-white/70 leading-relaxed max-w-2xl">
-            Have a project in mind, a business challenge to solve, or an idea you'd like to
-            explore? Tell us about it and let's start a conversation.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        label="Contact"
+        title="Let's build something meaningful."
+        intro="Tell us about your idea or your challenge, and let's start a conversation."
+      />
 
-      <section className="section-padding surface-cream">
+      <section className="section">
         <div className="container-content">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            {/* Contact info — navy card */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+            {/* Channels */}
             <div className="lg:col-span-4">
-              <div className="rounded-2xl bg-navy text-white p-8 relative overflow-hidden sticky top-24">
-                <div className="absolute inset-0 grid-pattern opacity-20" />
-                <div className="absolute top-0 right-0 w-40 h-40 bg-brand/15 rounded-full blur-[60px]" />
-                <div className="relative">
-                  <h2 className="text-lg font-semibold text-white mb-6">Contact Information</h2>
-                  <div className="space-y-4">
+              <p className="label mb-6">Direct</p>
+              <div className="border-t border-line">
+                {channels.map(({ icon: Icon, label, value, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group flex items-center justify-between gap-4 border-b border-line py-5 transition-colors hover:bg-white/[0.02]"
+                  >
+                    <span className="flex items-center gap-3">
+                      <Icon size={16} className="text-mist-mute" />
+                      <span className="label !text-mist-mute">{label}</span>
+                    </span>
+                    <span className="text-sm text-mist-dim transition-colors group-hover:text-mist">
+                      {value}
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              {siteConfig.contact.linkedinNeedsPublicUrl && (
+                <p className="body-text mt-6 text-[13px] !text-mist-mute">
+                  Note: the LinkedIn link currently points to an admin dashboard — confirm the
+                  public company URL before launch.
+                </p>
+              )}
+            </div>
+
+            {/* Form */}
+            <div className="lg:col-span-7 lg:col-start-6">
+              {!CONTACT_DELIVERY_ENABLED && status === 'idle' && (
+                <div className="mb-8 flex items-start gap-3 rounded-xl border border-line bg-ink-soft p-4">
+                  <AlertCircle size={17} className="mt-0.5 flex-shrink-0 text-ember" />
+                  <p className="body-text text-[13px]">
+                    Message delivery isn't configured yet. Submitting shows a confirmation, but
+                    nothing is sent — please email{' '}
                     <a
                       href={`mailto:${siteConfig.contact.email}`}
-                      className="flex items-center gap-3 text-white/70 hover:text-brand-light transition-colors"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
-                        <Mail size={18} />
-                      </div>
-                      <span className="text-sm">{siteConfig.contact.email}</span>
-                    </a>
-                    <a
-                      href={siteConfig.contact.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-white/70 hover:text-brand-light transition-colors"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
-                        <Instagram size={18} />
-                      </div>
-                      <span className="text-sm">Instagram</span>
-                    </a>
-                    <a
-                      href={siteConfig.contact.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-white/70 hover:text-brand-light transition-colors"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10">
-                        <Linkedin size={18} />
-                      </div>
-                      <span className="text-sm">LinkedIn</span>
-                    </a>
-                  </div>
-
-                  {siteConfig.contact.linkedinNeedsPublicUrl && (
-                    <p className="mt-6 text-xs text-white/40 bg-white/5 rounded-lg p-3 leading-relaxed">
-                      Note: The LinkedIn URL is currently pointing to an admin dashboard. Please
-                      confirm the public company URL before launch.
-                    </p>
-                  )}
-
-                  <p className="mt-8 text-sm text-white/50 leading-relaxed">
-                    Prefer email? Reach us directly at{' '}
-                    <a
-                      href={`mailto:${siteConfig.contact.email}`}
-                      className="text-brand-light hover:underline"
+                      className="font-medium text-mist underline"
                     >
                       {siteConfig.contact.email}
                     </a>{' '}
-                    and we'll respond promptly.
+                    for now.
                   </p>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Contact form */}
-            <div className="lg:col-span-8">
-              <div className="rounded-2xl bg-white border border-border p-8 md:p-10">
-                {!CONTACT_DELIVERY_ENABLED && status === 'idle' && (
-                  <div className="mb-6 flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 p-4">
-                    <AlertCircle size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-amber-800 leading-relaxed">
-                      Message delivery is not yet configured. Submitting the form will show a
-                      confirmation, but your message will not be delivered. Please email us directly
-                      at{' '}
-                      <a href={`mailto:${siteConfig.contact.email}`} className="font-medium underline">
-                        {siteConfig.contact.email}
-                      </a>
-                      .
-                    </p>
-                  </div>
-                )}
+              {status === 'success' && (
+                <div className="mb-8 flex items-start gap-3 rounded-xl border border-green-500/30 bg-green-500/5 p-4">
+                  <CheckCircle2 size={17} className="mt-0.5 flex-shrink-0 text-green-400" />
+                  <p className="body-text text-[13px] text-green-200">{statusMessage}</p>
+                </div>
+              )}
 
-                {status === 'success' && (
-                  <div className="mb-6 flex items-start gap-3 rounded-xl bg-green-50 border border-green-200 p-4">
-                    <CheckCircle2 size={18} className="text-green-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-green-800 leading-relaxed">{statusMessage}</p>
-                  </div>
-                )}
+              {status === 'error' && (
+                <div className="mb-8 flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4">
+                  <AlertCircle size={17} className="mt-0.5 flex-shrink-0 text-red-400" />
+                  <p className="body-text text-[13px] text-red-200">{statusMessage}</p>
+                </div>
+              )}
 
-                {status === 'error' && (
-                  <div className="mb-6 flex items-start gap-3 rounded-xl bg-red-50 border border-red-200 p-4">
-                    <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-800 leading-relaxed">{statusMessage}</p>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label htmlFor="fullName" className="block text-sm font-medium text-navy mb-1.5">
-                        Full name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="fullName"
-                        name="fullName"
-                        type="text"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        className={inputClass('fullName')}
-                        placeholder="Your name"
-                        aria-invalid={!!errors.fullName}
-                      />
-                      {errors.fullName && (
-                        <p className="mt-1 text-sm text-red-500">{errors.fullName}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-navy mb-1.5">
-                        Email address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={inputClass('email')}
-                        placeholder="you@example.com"
-                        aria-invalid={!!errors.email}
-                      />
-                      {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} noValidate className="space-y-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-navy mb-1.5">
-                      Company or organization{' '}
-                      <span className="text-slate-muted/50 font-normal">(optional)</span>
+                    <label htmlFor="fullName" className="label mb-3 block !text-mist-dim">
+                      Full name *
                     </label>
                     <input
-                      id="company"
-                      name="company"
+                      id="fullName"
+                      name="fullName"
                       type="text"
-                      value={formData.company}
+                      value={formData.fullName}
                       onChange={handleChange}
-                      className={inputClass('company')}
-                      placeholder="Your company"
+                      className={inputClass('fullName')}
+                      placeholder="Your name"
+                      aria-invalid={!!errors.fullName}
                     />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label htmlFor="projectType" className="block text-sm font-medium text-navy mb-1.5">
-                        Type of project <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        id="projectType"
-                        name="projectType"
-                        value={formData.projectType}
-                        onChange={handleChange}
-                        className={inputClass('projectType')}
-                        aria-invalid={!!errors.projectType}
-                      >
-                        <option value="">Select a type</option>
-                        {projectTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.projectType && (
-                        <p className="mt-1 text-sm text-red-500">{errors.projectType}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="budget" className="block text-sm font-medium text-navy mb-1.5">
-                        Estimated budget{' '}
-                        <span className="text-slate-muted/50 font-normal">(optional)</span>
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        className={inputClass('budget')}
-                      >
-                        <option value="">Select a range</option>
-                        {budgetRanges.map((range) => (
-                          <option key={range} value={range}>
-                            {range}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-navy mb-1.5">
-                      Project description <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      rows={5}
-                      value={formData.description}
-                      onChange={handleChange}
-                      className={inputClass('description')}
-                      placeholder="Tell us about your project, your goals, and what you'd like to build."
-                      aria-invalid={!!errors.description}
-                    />
-                    {errors.description && (
-                      <p className="mt-1 text-sm text-red-500">{errors.description}</p>
+                    {errors.fullName && (
+                      <p className="mt-2 text-[13px] text-red-400">{errors.fullName}</p>
                     )}
                   </div>
 
                   <div>
-                    <Button type="submit" size="lg" disabled={status === 'submitting'}>
-                      {status === 'submitting' ? (
-                        <>Sending…</>
-                      ) : (
-                        <>
-                          Send Message
-                          <Send size={18} />
-                        </>
-                      )}
-                    </Button>
+                    <label htmlFor="email" className="label mb-3 block !text-mist-dim">
+                      Email address *
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={inputClass('email')}
+                      placeholder="you@example.com"
+                      aria-invalid={!!errors.email}
+                    />
+                    {errors.email && (
+                      <p className="mt-2 text-[13px] text-red-400">{errors.email}</p>
+                    )}
                   </div>
-                </form>
-              </div>
+                </div>
+
+                <div>
+                  <label htmlFor="company" className="label mb-3 block !text-mist-dim">
+                    Company (optional)
+                  </label>
+                  <input
+                    id="company"
+                    name="company"
+                    type="text"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className={inputClass('company')}
+                    placeholder="Your company"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="projectType" className="label mb-3 block !text-mist-dim">
+                      Project type *
+                    </label>
+                    <select
+                      id="projectType"
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      className={inputClass('projectType')}
+                      aria-invalid={!!errors.projectType}
+                    >
+                      <option value="">Select a type</option>
+                      {projectTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.projectType && (
+                      <p className="mt-2 text-[13px] text-red-400">{errors.projectType}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="budget" className="label mb-3 block !text-mist-dim">
+                      Budget (optional)
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      className={inputClass('budget')}
+                    >
+                      <option value="">Select a range</option>
+                      {budgetRanges.map((range) => (
+                        <option key={range} value={range}>
+                          {range}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="description" className="label mb-3 block !text-mist-dim">
+                    Project description *
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    rows={5}
+                    value={formData.description}
+                    onChange={handleChange}
+                    className={inputClass('description')}
+                    placeholder="What would you like to build?"
+                    aria-invalid={!!errors.description}
+                  />
+                  {errors.description && (
+                    <p className="mt-2 text-[13px] text-red-400">{errors.description}</p>
+                  )}
+                </div>
+
+                <Button type="submit" size="lg" variant="light" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? (
+                    'Sending…'
+                  ) : (
+                    <>
+                      Send Message
+                      <Send size={16} />
+                    </>
+                  )}
+                </Button>
+              </form>
             </div>
           </div>
         </div>

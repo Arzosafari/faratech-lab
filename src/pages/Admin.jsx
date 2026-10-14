@@ -31,6 +31,9 @@ const categories = [
   'Business Automation',
 ]
 
+const inputCx =
+  'w-full rounded-xl border border-line bg-ink-soft px-3.5 py-2.5 text-mist placeholder:text-mist-mute transition-colors focus:outline-none focus:border-line-strong'
+
 export default function Admin() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
@@ -141,40 +144,39 @@ export default function Admin() {
   const featuredCount = projects.filter((p) => p.featured).length
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-ink">
       {/* Admin header */}
-      <div className="bg-navy text-white">
-        <div className="container-content py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <LayoutDashboard size={24} />
-            <h1 className="text-xl font-bold">FaraTech Admin</h1>
+      <div className="border-b border-line bg-ink-deep">
+        <div className="container-content flex items-center justify-between py-6">
+          <div className="flex items-center gap-3 text-mist">
+            <LayoutDashboard size={22} />
+            <h1 className="text-lg font-bold tracking-tight">FaraTech Admin</h1>
           </div>
           <Link
             to="/"
-            className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+            className="label inline-flex items-center gap-2 !text-mist-dim transition-colors hover:!text-mist"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={14} />
             View Site
           </Link>
         </div>
       </div>
 
-      <div className="container-content py-10">
+      <div className="container-content py-12">
         {/* Mock data notice */}
-        <div className="mb-8 flex items-start gap-3 rounded-lg bg-amber-50 border border-amber-200 p-4">
-          <Lock size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
+        <div className="mb-10 flex items-start gap-3 rounded-2xl border border-line bg-ink-card p-4">
+          <Lock size={17} className="mt-0.5 flex-shrink-0 text-ember" />
           <div>
-            <p className="text-sm font-medium text-amber-900">Mock Data — Not Persisted</p>
-            <p className="text-sm text-amber-800 mt-1 leading-relaxed">
-              This admin interface uses in-memory mock data. Changes are not saved permanently and
-              will be lost on page refresh. Authentication, persistent storage, and file uploads
-              require backend integration. This UI demonstrates the content management workflow.
+            <p className="text-sm font-semibold text-mist">Mock Data — Not Persisted</p>
+            <p className="body-text mt-1 text-[13px]">
+              This interface uses in-memory mock data; changes are lost on refresh.
+              Authentication, persistent storage, and file uploads require backend integration.
             </p>
           </div>
         </div>
 
         {/* Dashboard stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
           <StatCard label="Total Projects" value={projects.length} />
           <StatCard label="Published" value={publishedCount} />
           <StatCard label="Drafts" value={draftCount} />
@@ -182,57 +184,53 @@ export default function Admin() {
         </div>
 
         {/* Projects section */}
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          <div className="flex items-center justify-between p-6 border-b border-border">
-            <h2 className="text-lg font-semibold text-navy">Projects</h2>
-            <Button size="sm" onClick={handleNewProject}>
+        <div className="overflow-hidden rounded-2xl border border-line bg-ink-card">
+          <div className="flex items-center justify-between border-b border-line p-6">
+            <h2 className="text-lg font-semibold text-mist">Projects</h2>
+            <Button size="sm" variant="light" onClick={handleNewProject}>
               <FolderPlus size={16} />
               New Project
             </Button>
           </div>
 
           {loading ? (
-            <div className="p-12 text-center text-body">Loading…</div>
+            <div className="body-text p-12 text-center">Loading…</div>
           ) : projects.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-body mb-2">No projects yet.</p>
-              <p className="text-sm text-body/60">
-                Click "New Project" to create your first project.
-              </p>
+              <p className="body-text mb-2">No projects yet.</p>
+              <p className="label">Click "New Project" to create your first one.</p>
             </div>
           ) : (
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-line">
               {projects.map((project) => (
                 <div
                   key={project.id}
-                  className="flex items-center gap-4 p-4 hover:bg-brand-light/50 transition-colors"
+                  className="flex items-center gap-4 p-4 transition-colors hover:bg-white/[0.02]"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-light overflow-hidden flex items-center justify-center">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-line bg-ink-soft">
                     {project.coverImage ? (
-                      <img
-                        src={project.coverImage}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={project.coverImage} alt="" className="h-full w-full object-cover" />
                     ) : (
-                      <span className="text-xs text-navy/30">No img</span>
+                      <span className="label !text-mist-mute">—</span>
                     )}
                   </div>
 
-                  <div className="flex-1 min-w-0">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-navy truncate">{project.title || 'Untitled'}</h3>
+                      <h3 className="truncate font-medium text-mist">
+                        {project.title || 'Untitled'}
+                      </h3>
                       {project.featured && (
-                        <Star size={14} className="text-amber-500 fill-amber-500 flex-shrink-0" />
+                        <Star size={14} className="flex-shrink-0 fill-amber-400 text-amber-400" />
                       )}
                     </div>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-xs text-body">{project.category}</span>
+                    <div className="mt-1.5 flex items-center gap-3">
+                      <span className="label !text-mist-mute">{project.category}</span>
                       <span
-                        className={`text-xs px-2 py-0.5 rounded-full ${
+                        className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium ${
                           project.status === 'published'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-brand-light text-navy-rich'
+                            ? 'bg-green-500/10 text-green-400'
+                            : 'bg-white/5 text-mist-dim'
                         }`}
                       >
                         {project.status === 'published' ? 'Published' : 'Draft'}
@@ -240,34 +238,34 @@ export default function Admin() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 flex-shrink-0">
+                  <div className="flex flex-shrink-0 items-center gap-1">
                     <button
                       onClick={() => handleToggleFeatured(project)}
-                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-amber-500 transition-colors"
+                      className="rounded-lg p-2 text-mist-dim transition-colors hover:bg-white/5 hover:text-amber-400"
                       title={project.featured ? 'Unfeature' : 'Feature'}
                     >
                       <Star
                         size={16}
-                        className={project.featured ? 'fill-amber-500 text-amber-500' : ''}
+                        className={project.featured ? 'fill-amber-400 text-amber-400' : ''}
                       />
                     </button>
                     <button
                       onClick={() => handleTogglePublish(project)}
-                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-brand transition-colors"
+                      className="rounded-lg p-2 text-mist-dim transition-colors hover:bg-white/5 hover:text-mist"
                       title={project.status === 'published' ? 'Unpublish' : 'Publish'}
                     >
                       {project.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                     <button
                       onClick={() => handleEdit(project)}
-                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-brand transition-colors"
+                      className="rounded-lg p-2 text-mist-dim transition-colors hover:bg-white/5 hover:text-mist"
                       title="Edit"
                     >
                       <Edit3 size={16} />
                     </button>
                     <button
                       onClick={() => setDeleteConfirm(project)}
-                      className="p-2 rounded-lg hover:bg-brand-light text-body hover:text-red-500 transition-colors"
+                      className="rounded-lg p-2 text-mist-dim transition-colors hover:bg-white/5 hover:text-red-400"
                       title="Delete"
                     >
                       <Trash2 size={16} />
@@ -280,190 +278,195 @@ export default function Admin() {
         </div>
 
         {/* Admin features note */}
-        <div className="mt-8 bg-white rounded-xl border border-border p-6">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-navy mb-4">
-            Admin Capabilities
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-body">
+        <div className="mt-10 rounded-2xl border border-line bg-ink-card p-6">
+          <h3 className="label mb-5">Admin Capabilities</h3>
+          <div className="grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-mist-dim md:grid-cols-2">
             <p>✓ Create and edit projects</p>
             <p>✓ Publish and unpublish projects</p>
             <p>✓ Mark projects as featured</p>
             <p>✓ Delete projects with confirmation</p>
             <p>✓ Set display order</p>
             <p>✓ Manage categories and tags</p>
-            <p className="text-body/50">— Authentication (requires backend)</p>
-            <p className="text-body/50">— File uploads (requires backend)</p>
-            <p className="text-body/50">— Edit service descriptions (requires backend)</p>
-            <p className="text-body/50">— Edit founder profiles (requires backend)</p>
-            <p className="text-body/50">— Manage AI Lab demos (requires backend)</p>
-            <p className="text-body/50">— Edit homepage text (requires backend)</p>
+            <p className="text-mist-mute">— Authentication (requires backend)</p>
+            <p className="text-mist-mute">— File uploads (requires backend)</p>
+            <p className="text-mist-mute">— Edit service descriptions (requires backend)</p>
+            <p className="text-mist-mute">— Edit founder profiles (requires backend)</p>
+            <p className="text-mist-mute">— Manage AI Lab demos (requires backend)</p>
+            <p className="text-mist-mute">— Edit homepage text (requires backend)</p>
           </div>
         </div>
       </div>
 
       {/* Project form modal */}
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-border sticky top-0 bg-white">
-              <h2 className="text-lg font-semibold text-navy">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-line bg-ink-card">
+            <div className="sticky top-0 flex items-center justify-between border-b border-line bg-ink-card p-6">
+              <h2 className="text-lg font-semibold text-mist">
                 {editingId ? 'Edit Project' : 'New Project'}
               </h2>
               <button
                 onClick={() => setShowForm(false)}
-                className="p-2 rounded-lg hover:bg-brand-light text-body transition-colors"
+                className="rounded-lg p-2 text-mist-dim transition-colors hover:bg-white/5 hover:text-mist"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={handleSave} className="space-y-5 p-6">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-navy mb-1.5">Title</label>
+                  <label className="label mb-2 block !text-mist-dim">Title</label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputCx}
                     placeholder="Project title"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-navy mb-1.5">Slug</label>
+                  <label className="label mb-2 block !text-mist-dim">Slug</label>
                   <input
                     type="text"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputCx}
                     placeholder="url-friendly-slug"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">Short description</label>
+                <label className="label mb-2 block !text-mist-dim">Short description</label>
                 <input
                   type="text"
                   value={formData.excerpt}
                   onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={inputCx}
                   placeholder="One-line summary for listings"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">Full description</label>
+                <label className="label mb-2 block !text-mist-dim">Full description</label>
                 <textarea
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={inputCx}
                   placeholder="Full case-study content"
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-navy mb-1.5">Category</label>
+                  <label className="label mb-2 block !text-mist-dim">Category</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputCx}
                   >
                     {categories.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-navy mb-1.5">Display order</label>
+                  <label className="label mb-2 block !text-mist-dim">Display order</label>
                   <input
                     type="number"
                     value={formData.order}
                     onChange={(e) => setFormData({ ...formData, order: e.target.value })}
-                    className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputCx}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">
-                  Technology tags <span className="text-body/50 font-normal">(comma-separated)</span>
+                <label className="label mb-2 block !text-mist-dim">
+                  Technology tags (comma-separated)
                 </label>
                 <input
                   type="text"
                   value={formData.tags}
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={inputCx}
                   placeholder="React, Node.js, Python"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">Cover image URL</label>
+                <label className="label mb-2 block !text-mist-dim">Cover image URL</label>
                 <input
                   type="text"
                   value={formData.coverImage}
                   onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="https://..."
+                  className={inputCx}
+                  placeholder="https://…"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">Video URL (optional)</label>
+                <label className="label mb-2 block !text-mist-dim">Video URL (optional)</label>
                 <input
                   type="text"
                   value={formData.videoUrl}
                   onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="https://..."
+                  className={inputCx}
+                  placeholder="https://…"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-navy mb-1.5">Project URL (optional)</label>
+                <label className="label mb-2 block !text-mist-dim">Project URL (optional)</label>
                 <input
                   type="text"
                   value={formData.projectUrl}
                   onChange={(e) => setFormData({ ...formData, projectUrl: e.target.value })}
-                  className="w-full rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="https://..."
+                  className={inputCx}
+                  placeholder="https://…"
                 />
               </div>
 
               <div className="flex items-center gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-navy mb-1.5">Status</label>
+                  <label className="label mb-2 block !text-mist-dim">Status</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="rounded-lg border border-border px-3 py-2 text-navy focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputCx}
                   >
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
                   </select>
                 </div>
 
-                <label className="flex items-center gap-2 mt-7 cursor-pointer">
+                <label className="mt-6 flex cursor-pointer items-center gap-2">
                   <input
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-4 h-4 rounded border-border text-brand focus:ring-brand/20"
+                    className="h-4 w-4 rounded border-line accent-ember"
                   />
-                  <span className="text-sm font-medium text-navy">Featured</span>
+                  <span className="text-sm font-medium text-mist">Featured</span>
                 </label>
               </div>
 
-              <div className="flex gap-3 pt-4 border-t border-border">
-                <Button type="submit" size="md">
+              <div className="flex gap-3 border-t border-line pt-5">
+                <Button type="submit" size="md" variant="light">
                   <Save size={16} />
                   {editingId ? 'Save Changes' : 'Create Project'}
                 </Button>
-                <Button type="button" variant="outline" size="md" onClick={() => setShowForm(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  onClick={() => setShowForm(false)}
+                >
                   Cancel
                 </Button>
               </div>
@@ -474,25 +477,28 @@ export default function Admin() {
 
       {/* Delete confirmation */}
       {deleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 flex-shrink-0">
-                <AlertTriangle size={20} className="text-red-600" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-line bg-ink-card p-6">
+            <div className="mb-5 flex items-start gap-3">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                <AlertTriangle size={20} className="text-red-400" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-navy">Delete Project?</h3>
-                <p className="text-sm text-body mt-1">
-                  Are you sure you want to delete "{deleteConfirm.title || 'Untitled'}"? This action
-                  cannot be undone.
+                <h3 className="text-lg font-semibold text-mist">Delete Project?</h3>
+                <p className="body-text mt-1 text-[13px]">
+                  Delete "{deleteConfirm.title || 'Untitled'}"? This action cannot be undone.
                 </p>
               </div>
             </div>
-            <div className="flex gap-3 justify-end">
+            <div className="flex justify-end gap-3">
               <Button variant="outline" size="sm" onClick={() => setDeleteConfirm(null)}>
                 Cancel
               </Button>
-              <Button size="sm" onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+              <Button
+                size="sm"
+                onClick={handleDelete}
+                className="!bg-red-600 !text-white hover:!bg-red-500"
+              >
                 <Trash2 size={16} />
                 Delete
               </Button>
@@ -506,9 +512,9 @@ export default function Admin() {
 
 function StatCard({ label, value }) {
   return (
-    <div className="bg-white rounded-xl border border-border p-5">
-      <p className="text-3xl font-bold text-navy">{value}</p>
-      <p className="text-sm text-body mt-1">{label}</p>
+    <div className="rounded-2xl border border-line bg-ink-card p-5">
+      <p className="text-3xl font-bold text-mist">{value}</p>
+      <p className="label mt-2">{label}</p>
     </div>
   )
 }

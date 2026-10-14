@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
+import Reveal from '../components/Reveal.jsx'
 import Button from '../components/Button.jsx'
 import { getProjectBySlug, getPublishedProjects } from '../data/projects.js'
 
@@ -12,64 +13,65 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     setLoading(true)
-    Promise.all([getProjectBySlug(slug), getPublishedProjects()]).then(
-      ([p, all]) => {
-        setProject(p)
-        setRelated(all.filter((item) => item.slug !== slug).slice(0, 2))
-        setLoading(false)
-      }
-    )
+    Promise.all([getProjectBySlug(slug), getPublishedProjects()]).then(([p, all]) => {
+      setProject(p)
+      setRelated(all.filter((item) => item.slug !== slug).slice(0, 2))
+      setLoading(false)
+    })
   }, [slug])
 
   if (loading) {
-    return (
-      <div className="container-content py-24 text-center text-body">Loading…</div>
-    )
+    return <div className="container-content py-32 body-text">Loading…</div>
   }
 
   if (!project) {
     return (
-      <div className="container-content py-24 text-center">
-        <h1 className="text-3xl font-bold text-navy mb-4">Project Not Found</h1>
-        <p className="text-body mb-8">
-          The project you're looking for doesn't exist or hasn't been published yet.
-        </p>
-        <Button to="/work" variant="outline">
-          <ArrowLeft size={18} />
-          Back to Work
-        </Button>
-      </div>
+      <section className="relative overflow-hidden bg-ink-radial">
+        <div className="pointer-events-none absolute -top-44 right-[-12%] h-[440px] w-[440px] rounded-full bg-flare blur-[150px]" />
+        <div className="container-content relative flex min-h-[70vh] flex-col justify-center py-32">
+          <p className="label">Not found</p>
+          <h1 className="display-sm mt-8 max-w-2xl">This project doesn't exist.</h1>
+          <p className="lead mt-6 max-w-md">
+            It may have been unpublished, or the link is no longer valid.
+          </p>
+          <Button to="/work" variant="outline" size="md" className="mt-10 w-fit">
+            <ArrowLeft size={16} />
+            Back to Work
+          </Button>
+        </div>
+      </section>
     )
   }
 
+  const sections = [
+    { key: 'problem', label: 'Problem & Context' },
+    { key: 'goals', label: 'Goals' },
+    { key: 'approach', label: 'Our Approach' },
+    { key: 'implementation', label: 'Design & Implementation' },
+    { key: 'outcomes', label: 'Outcomes' },
+  ].filter((s) => project.caseStudy?.[s.key])
+
   return (
     <div>
-      {/* Header — navy */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[100px]" />
-        <div className="container-content relative py-16 md:py-20">
+      {/* Header */}
+      <section className="relative overflow-hidden border-b border-line bg-ink-radial">
+        <div className="pointer-events-none absolute -top-44 right-[-12%] h-[440px] w-[440px] rounded-full bg-flare blur-[150px]" />
+        <div className="pointer-events-none absolute inset-0 grid-lines opacity-30" />
+        <div className="container-content relative pb-16 pt-36 md:pb-24 md:pt-44">
           <Link
             to="/work"
-            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-brand-light transition-colors mb-6"
+            className="label inline-flex items-center gap-2 !text-mist-dim transition-colors hover:!text-mist"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={14} />
             Back to Work
           </Link>
-          <p className="eyebrow !text-brand-light mb-3">{project.category}</p>
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight max-w-3xl">
-            {project.title}
-          </h1>
-          <p className="mt-4 text-lg text-white/70 leading-relaxed max-w-3xl">
-            {project.excerpt}
-          </p>
+          <p className="label mt-10">{project.category}</p>
+          <h1 className="display-sm mt-8 max-w-3xl">{project.title}</h1>
+          <p className="lead mt-6 max-w-xl">{project.excerpt}</p>
           {project.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
               {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-white/80"
-                >
+                <span key={tag} className="label !text-mist-dim">
                   {tag}
                 </span>
               ))}
@@ -80,163 +82,115 @@ export default function ProjectDetail() {
 
       {/* Cover */}
       {project.coverImage && (
-        <section className="surface-cream">
-          <div className="container-content py-12">
-            <img
-              src={project.coverImage}
-              alt={project.title}
-              className="w-full rounded-2xl object-cover max-h-[480px]"
-            />
-          </div>
-        </section>
+        <div className="container-content pt-14">
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            className="max-h-[520px] w-full rounded-2xl border border-line object-cover"
+          />
+        </div>
       )}
 
-      {/* Case study content */}
-      <section className="section-padding surface-white">
-        <div className="container-content max-w-3xl">
-          {project.description && (
-            <p className="text-lg text-body leading-relaxed">{project.description}</p>
-          )}
+      {/* Case study */}
+      <section className="section">
+        <div className="container-content">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-6 lg:col-start-6">
+              {project.description && <p className="lead">{project.description}</p>}
 
-          {project.caseStudy?.problem && (
-            <div className="mt-12">
-              <h2 className="heading-3 mb-3">Problem & Context</h2>
-              <p className="text-body leading-relaxed">{project.caseStudy.problem}</p>
-            </div>
-          )}
-          {project.caseStudy?.goals && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Goals</h2>
-              <p className="text-body leading-relaxed">{project.caseStudy.goals}</p>
-            </div>
-          )}
-          {project.caseStudy?.approach && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Our Approach</h2>
-              <p className="text-body leading-relaxed">{project.caseStudy.approach}</p>
-            </div>
-          )}
-          {project.caseStudy?.implementation && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Design & Implementation</h2>
-              <p className="text-body leading-relaxed">{project.caseStudy.implementation}</p>
-            </div>
-          )}
-          {project.caseStudy?.technologies && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Technologies Used</h2>
-              <div className="flex flex-wrap gap-2">
-                {project.caseStudy.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 rounded-full bg-brand-light text-sm font-medium text-navy-rich"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {project.caseStudy?.features && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Key Features</h2>
-              <ul className="space-y-2">
-                {project.caseStudy.features.map((feature) => (
-                  <li key={feature} className="text-body leading-relaxed flex gap-2">
-                    <span className="text-brand mt-1">•</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {project.caseStudy?.outcomes && (
-            <div className="mt-10">
-              <h2 className="heading-3 mb-3">Outcomes</h2>
-              <p className="text-body leading-relaxed">{project.caseStudy.outcomes}</p>
-            </div>
-          )}
+              {sections.map((section) => (
+                <Reveal key={section.key} className="mt-12 border-t border-line pt-10">
+                  <h2 className="label mb-4 !text-ember">{section.label}</h2>
+                  <p className="body-text text-base">{project.caseStudy[section.key]}</p>
+                </Reveal>
+              ))}
 
-          {/* Gallery */}
+              {project.caseStudy?.technologies && (
+                <div className="mt-12 border-t border-line pt-10">
+                  <h2 className="label mb-5 !text-ember">Technologies Used</h2>
+                  <div className="flex flex-wrap gap-x-5 gap-y-2">
+                    {project.caseStudy.technologies.map((tech) => (
+                      <span key={tech} className="label !text-mist-dim">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {project.caseStudy?.features && (
+                <div className="mt-12 border-t border-line pt-10">
+                  <h2 className="label mb-5 !text-ember">Key Features</h2>
+                  <ul className="space-y-3">
+                    {project.caseStudy.features.map((feature) => (
+                      <li key={feature} className="body-text flex gap-3">
+                        <span className="text-ember">—</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {project.projectUrl && (
+                <a
+                  href={project.projectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-12 inline-flex items-center gap-2 text-sm font-medium text-mist transition-colors hover:text-ember"
+                >
+                  <ExternalLink size={17} />
+                  View Live Project
+                </a>
+              )}
+            </div>
+          </div>
+
           {project.gallery.length > 0 && (
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2">
               {project.gallery.map((media, i) => (
                 <img
                   key={i}
                   src={media}
                   alt={`${project.title} — image ${i + 1}`}
-                  className="w-full rounded-xl object-cover"
+                  className="w-full rounded-2xl border border-line object-cover"
                   loading="lazy"
                 />
               ))}
             </div>
           )}
-
-          {/* Project link */}
-          {project.projectUrl && (
-            <div className="mt-10">
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-brand hover:text-brand-hover font-medium"
-              >
-                <ExternalLink size={18} />
-                View Live Project
-              </a>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* Related projects */}
+      {/* Related */}
       {related.length > 0 && (
-        <section className="section-padding surface-cream">
+        <section className="section bg-ink-soft">
           <div className="container-content">
-            <h2 className="heading-2 mb-8">Related Projects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <p className="label mb-6">Related</p>
+            <h2 className="display-sm mb-14">More work</h2>
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
               {related.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/work/${item.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-white border border-border card-hover"
-                >
-                  <div className="aspect-[16/10] overflow-hidden bg-brand-light">
-                    {item.coverImage ? (
+                <Link key={item.id} to={`/work/${item.slug}`} className="group block">
+                  <div className="aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-ink-card">
+                    {item.coverImage && (
                       <img
                         src={item.coverImage}
                         alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         loading="lazy"
                       />
-                    ) : (
-                      <div className="w-full h-full" />
                     )}
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-semibold text-navy group-hover:text-brand transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-body">{item.excerpt}</p>
-                  </div>
+                  <h3 className="mt-5 text-xl font-semibold text-mist transition-colors group-hover:text-ember">
+                    {item.title}
+                  </h3>
+                  <p className="body-text mt-2">{item.excerpt}</p>
                 </Link>
               ))}
             </div>
           </div>
         </section>
       )}
-
-      {/* CTA */}
-      <section className="bg-navy-radial text-white relative overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="container-content relative py-16 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white">Have a project in mind?</h2>
-          <p className="mt-3 text-white/70">Let's explore how we can build it together.</p>
-          <Button to="/contact" variant="accent" className="mt-8">
-            Start a Project
-          </Button>
-        </div>
-      </section>
     </div>
   )
 }

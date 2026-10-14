@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Linkedin } from 'lucide-react'
-import SectionHeading from '../components/SectionHeading.jsx'
+import Reveal from '../components/Reveal.jsx'
 import Button from '../components/Button.jsx'
 import { getTeamMembers } from '../data/team.js'
 
@@ -11,10 +11,11 @@ function PortraitPlaceholder({ name }) {
     .join('')
 
   return (
-    <div className="aspect-[4/5] w-full rounded-2xl bg-navy text-white flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 grid-pattern opacity-30" />
-      <div className="absolute top-0 right-0 w-40 h-40 bg-brand/20 rounded-full blur-[60px]" />
-      <span className="relative text-5xl font-bold text-white/30">{initials}</span>
+    <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-2xl border border-line bg-ink-card">
+      <div className="hero-orb absolute -bottom-1/3 h-2/3 w-2/3 rounded-full opacity-40" />
+      <span className="relative text-6xl font-extrabold tracking-tight text-white/15">
+        {initials}
+      </span>
     </div>
   )
 }
@@ -27,42 +28,40 @@ export default function MeetFounders() {
   }, [])
 
   return (
-    <section className="section-padding surface-white">
+    <section className="section">
       <div className="container-content">
-        <SectionHeading
-          eyebrow="Meet the Founders"
-          title="The People Behind FaraTech"
-          description="FaraTech is built by two technology professionals who share an interest in software engineering, artificial intelligence, and creating useful digital experiences."
-        />
+        <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div>
+            <p className="label mb-6">05 — The Founders</p>
+            <h2 className="display-sm">The people behind FaraTech</h2>
+          </div>
+          <Button to="/team" variant="ghost" size="sm" className="self-start md:self-auto">
+            Meet the team
+          </Button>
+        </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {members.map((member) => (
-            <div
-              key={member.id}
-              className="rounded-2xl bg-cream border border-border overflow-hidden card-hover"
-            >
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
+          {members.map((member, i) => (
+            <Reveal key={member.id} delay={i * 0.08}>
               {member.portrait ? (
                 <img
                   src={member.portrait}
                   alt={member.name}
-                  className="aspect-[4/5] w-full object-cover"
+                  className="aspect-[4/5] w-full rounded-2xl border border-line object-cover"
                   loading="lazy"
                 />
               ) : (
                 <PortraitPlaceholder name={member.name} />
               )}
 
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-navy">{member.name}</h3>
-                <p className="text-sm text-brand font-medium mt-1">{member.role}</p>
-                <p className="mt-3 text-body leading-relaxed text-sm">{member.bio}</p>
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold text-mist">{member.name}</h3>
+                <p className="label mt-2">{member.role}</p>
+                <p className="body-text mt-4 max-w-md">{member.bio}</p>
 
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
                   {member.focusAreas.map((area) => (
-                    <span
-                      key={area}
-                      className="px-3 py-1 rounded-full bg-brand-light text-xs font-medium text-navy-rich"
-                    >
+                    <span key={area} className="label !text-mist-dim">
                       {area}
                     </span>
                   ))}
@@ -73,21 +72,15 @@ export default function MeetFounders() {
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-5 inline-flex items-center gap-2 text-sm text-body hover:text-brand transition-colors"
+                    className="mt-6 inline-flex items-center gap-2 text-sm text-mist-dim transition-colors hover:text-mist"
                   >
                     <Linkedin size={16} />
                     LinkedIn
                   </a>
                 )}
               </div>
-            </div>
+            </Reveal>
           ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Button to="/team" variant="ghost">
-            Meet the Full Team
-          </Button>
         </div>
       </div>
     </section>

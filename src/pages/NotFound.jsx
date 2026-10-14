@@ -1,21 +1,23 @@
-import { Link } from 'react-router-dom'
-import { Home } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import Button from '../components/Button.jsx'
 
 export default function NotFound() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-cream">
-      <div className="container-content text-center py-20">
-        <p className="text-7xl md:text-9xl font-bold text-navy/10">404</p>
-        <h1 className="heading-2 mt-4">Page Not Found</h1>
-        <p className="mt-3 text-body leading-relaxed max-w-md mx-auto">
-          The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+    <section className="relative overflow-hidden bg-ink-radial">
+      <div className="pointer-events-none absolute -top-44 right-[-12%] h-[440px] w-[440px] rounded-full bg-flare blur-[150px]" />
+      <div className="pointer-events-none absolute inset-0 grid-lines opacity-30" />
+
+      <div className="container-content relative flex min-h-[80vh] flex-col justify-center py-32">
+        <p className="display gradient-text">404</p>
+        <h1 className="display-sm mt-6 max-w-2xl">This page doesn't exist.</h1>
+        <p className="lead mt-6 max-w-md">
+          It may have moved, or the link is no longer valid. Let's get you back on track.
         </p>
-        <Button to="/" className="mt-8">
-          <Home size={18} />
+        <Button to="/" variant="light" size="md" className="mt-10 w-fit">
+          <ArrowLeft size={16} />
           Back to Home
         </Button>
       </div>
-    </div>
+    </section>
   )
 }
