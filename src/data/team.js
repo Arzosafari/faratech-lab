@@ -23,30 +23,20 @@ const teamMembers = [
   {
     id: 'arezoo-safari',
     name: 'Arezoo Safari',
-    role: 'Co-Founder | AI & Software Development',
-    bio: 'Focused on artificial intelligence, machine learning, intelligent applications, and software solutions that turn complex technical ideas into practical experiences.',
+    role: 'Co-Founder · AI & Software',
+    bio: 'Builds AI, machine learning, and software that turns complex technical ideas into practical products.',
     portrait: '',
     linkedin: null,
-    focusAreas: [
-      'Artificial Intelligence',
-      'Machine Learning',
-      'Intelligent Applications',
-      'Software Solutions',
-    ],
+    focusAreas: ['Artificial Intelligence', 'Machine Learning', 'Software Solutions'],
   },
   {
     id: 'mahsa-arjmandfar',
     name: 'Mahsa Arjmandfar',
-    role: 'Co-Founder | Software & Digital Solutions',
-    bio: 'Focused on collaborative solution development, software engineering, and building digital products that respond to real user and business needs.',
+    role: 'Co-Founder · Software & Digital',
+    bio: 'Builds digital products and software shaped around real user and business needs.',
     portrait: '',
     linkedin: null,
-    focusAreas: [
-      'Software Engineering',
-      'Digital Product Development',
-      'Collaborative Solutions',
-      'User-Centered Design',
-    ],
+    focusAreas: ['Software Engineering', 'Digital Products', 'User-Centered Design'],
   },
 ]
 

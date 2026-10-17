@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 
-export default function Logo({ className = '', light = false }) {
+export default function Logo({ className = '' }) {
   return (
-    <Link to="/" className={`inline-flex items-center gap-2.5 ${className}`} aria-label="FaraTech home">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-white font-extrabold text-lg leading-none">
-        F
-      </span>
-      <span className={`font-bold text-xl tracking-tight ${light ? 'text-white' : 'text-navy'}`}>
-        FaraTech
-      </span>
+    <Link
+      to="/"
+      className={`group inline-flex items-baseline gap-2 ${className}`}
+      aria-label="FaraTech home"
+    >
+      <span className="text-xl font-extrabold tracking-tight text-mist">FaraTech</span>
+      <span className="h-1.5 w-1.5 translate-y-[-1px] rounded-full bg-ember transition-transform duration-300 group-hover:scale-125" />
     </Link>
   )
 }

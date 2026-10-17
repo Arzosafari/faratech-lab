@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import Logo from './Logo.jsx'
-import Button from './Button.jsx'
 import { siteConfig } from '../config/site.js'
 
 export default function Header() {
@@ -11,95 +10,105 @@ export default function Header() {
   const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
     setMenuOpen(false)
   }, [location.pathname])
 
-  // Header is transparent over the dark hero, becomes solid on scroll
-  const isHome = location.pathname === '/'
-  const isDark = isHome && !scrolled
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  const isActive = (path) => location.pathname === path
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-cream/95 backdrop-blur-md border-b border-border shadow-sm'
-          : isDark
-            ? 'bg-transparent'
-            : 'bg-cream border-b border-transparent'
-      }`}
-    >
-      <div className="container-content flex items-center justify-between h-16 md:h-20">
-        <Logo light={isDark} />
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          scrolled || menuOpen
+            ? 'border-b border-line bg-ink/80 backdrop-blur-xl'
+            : 'border-b border-transparent'
+        }`}
+      >
+        <div className="container-content flex h-16 items-center justify-between gap-6 md:h-20">
+          <Logo />
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`text-sm font-medium transition-colors duration-200 ${
-                location.pathname === item.path
-                  ? isDark ? 'text-white' : 'text-brand'
-                  : isDark
-                    ? 'text-white/70 hover:text-white'
-                    : 'text-navy hover:text-brand'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden md:block">
-          <Button
-            to={siteConfig.cta.primary.path}
-            size="sm"
-            variant={isDark ? 'accent' : 'primary'}
-          >
-            {siteConfig.cta.primary.label}
-          </Button>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          className={`md:hidden p-2 transition-colors ${isDark ? 'text-white' : 'text-navy'}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-cream border-t border-border">
-          <nav className="container-content py-6 flex flex-col gap-1" aria-label="Mobile navigation">
+          {/* Desktop navigation — utility micro-typography */}
+          <nav className="hidden items-center gap-9 lg:flex" aria-label="Main navigation">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-3 rounded-xl text-base font-medium transition-colors ${
-                  location.pathname === item.path
-                    ? 'text-brand bg-brand-light'
-                    : 'text-navy hover:bg-brand-light'
+                className={`label transition-colors duration-300 hover:!text-mist ${
+                  isActive(item.path) ? '!text-mist' : ''
                 }`}
               >
                 {item.label}
               </Link>
             ))}
-            <Button to={siteConfig.cta.primary.path} size="md" className="mt-3">
-              {siteConfig.cta.primary.label}
-            </Button>
           </nav>
+
+          <div className="flex items-center gap-3">
+            <Link
+              to={siteConfig.cta.primary.path}
+              className="group hidden items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-[13px] font-semibold text-mist transition-colors duration-300 hover:border-mist hover:bg-white/5 sm:inline-flex"
+            >
+              {siteConfig.cta.primary.label}
+              <ArrowUpRight size={15} />
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              className="label inline-flex items-center gap-2 !text-mist transition-opacity hover:opacity-70 lg:hidden"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? 'Close' : 'Menu'}
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Full-screen menu overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-ink transition-opacity duration-500 lg:hidden ${
+          menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      >
+        <nav
+          className="container-content flex h-full flex-col justify-center gap-1 pb-20 pt-20"
+          aria-label="Mobile navigation"
+        >
+          {siteConfig.nav.map((item, i) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="group flex items-baseline justify-between border-b border-line py-5"
+            >
+              <span className="text-3xl font-bold tracking-tight text-mist transition-colors group-hover:text-ember">
+                {item.label}
+              </span>
+              <span className="label">{String(i + 1).padStart(2, '0')}</span>
+            </Link>
+          ))}
+          <Link
+            to={siteConfig.cta.primary.path}
+            className="mt-10 inline-flex w-fit items-center gap-2 rounded-full bg-mist px-7 py-3.5 text-sm font-semibold text-ink"
+          >
+            {siteConfig.cta.primary.label}
+            <ArrowUpRight size={16} />
+          </Link>
+        </nav>
+      </div>
+    </>
   )
 }
